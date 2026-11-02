@@ -56,12 +56,19 @@ footer{text-align:center;color:#78847e;font-size:12px;margin:25px}
 <button class="back" onclick="showPage('home')">بازگشت</button>
 </div>
 
-<div class="card page" id="admin">
-<h2>ورود مدیر</h2>
-<label>رمز عبور مدیر</label>
-<input id="adminPassword" type="password" placeholder="رمز عبور">
-<button class="action" onclick="login('admin')">ورود مدیر</button>
-<button class="back" onclick="showPage('home')">بازگشت</button>
+<div class="card page" id="adminPanel">
+  <h2>پنل مدیریت</h2>
+  <p>به پنل مدیریت کارگاه خوش آمدید.</p>
+
+  <button class="action" onclick="loadMembers()">
+    مشاهده اعضا
+  </button>
+
+  <div id="membersList"></div>
+
+  <button class="back" onclick="showPage('home')">
+    خروج
+  </button>
 </div>
 
 <div class="card page" id="register">
@@ -115,7 +122,8 @@ async function login(type) {
       return;
     }
 
-    alert("ورود مدیر موفق بود.");
+    localStorage.setItem("adminSession", JSON.stringify(result.session));
+showPage("adminPanel");
   } else {
     alert("ورود اعضا هنوز متصل نشده است.");
   }
