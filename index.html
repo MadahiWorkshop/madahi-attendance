@@ -92,8 +92,33 @@ function showPage(id){
  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
  document.getElementById(id).classList.add('active');
 }
-function login(type){
- alert('اتصال امن ورود به پایگاه داده هنوز تکمیل نشده است.');
+async function login(type) {
+  if (type === "admin") {
+    const password = document.getElementById("adminPassword").value;
+
+    const response = await fetch(
+      "https://puhckprfohwkyqlugmvm.supabase.co/functions/v1/Admin-login",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "apikey": "sb_publishable_lWBrsLRIUiWxPUo4Oq4jNA_S43aBUGs"
+        },
+        body: JSON.stringify({ password })
+      }
+    );
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      alert(result.error || "ورود ناموفق بود.");
+      return;
+    }
+
+    alert("ورود مدیر موفق بود.");
+  } else {
+    alert("ورود اعضا هنوز متصل نشده است.");
+  }
 }
 function registerMember(){
  alert('اتصال امن ثبت‌نام هنوز تکمیل نشده است. اطلاعات واردشده فعلاً ذخیره نمی‌شوند.');
