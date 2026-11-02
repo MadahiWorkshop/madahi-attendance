@@ -130,7 +130,73 @@ localStorage.setItem("adminSession", JSON.stringify(result.session));
   }
 }
 function registerMember(){
- alert('اتصال امن ثبت‌نام هنوز تکمیل نشده است. اطلاعات واردشده فعلاً ذخیره نمی‌شوند.');
+ async function loadMembers() {
+  const raw = localStorage.getItem("adminSession");
+
+  if (!raw) {
+    alert("ابتدا وارد حساب مدیر شوید.");
+    showPage("admin");
+    return;
+  }
+
+  const session = JSON.parse(raw);
+
+  const response = await fetch(
+    "https://puhckprfohwkyqlugmvm.supabase.co/rest/v1/profiles?select=first_name,last_name,father_name,phone,membership_code&role=eq.member&order=created_at.desc",
+    {
+      headers: {
+        "apikey": "sb_publishable_lWBrsLRIUiWxPUo4Oq4jNA_S43aBUGs",
+        "Authorization": "Bearer " + session.access_token
+      }
+    }
+  );
+
+  const members = await response.json();
+
+  if (!response.ok) {
+    alert("خطا در دریافت اعضا: " + (members.message || "خطای نامشخص"));
+    return;
+  }
+
+  const list = document.getElementById("membersList");
+
+  if (members.length === 0) {
+    list.textContent = "هنوز عضوی ثبت نشده است.";
+    return;
+  }
+
+  list.innerHTML = "";
+
+  members.forEach(member => {
+    const card = document.createElement("div");
+    card.style.cssText =
+      "padding:15px;margin-top:12px;border:1px solid #ddd;border-radius:10px";
+
+    const name = document.createElement("strong");
+    name.textContent =
+      (member.first_name || "") + " " + (member.last_name || "");
+
+    const code = document.createElement("p");
+    code.textContent = "کد عضویت: " + (member.membership_code || "ثبت نشده");
+
+    const phone = document.createElement("p");
+    phone.textContent = "شماره تماس: " + (member.phone || "ثبت نشده");
+
+    const copy = document.createElement("button");
+    copy.textContent = "کپی کد عضویت";
+    copy.onclick = async () => {
+      try {
+        await navigator.clipboard.writeText(member.membership_code || "");
+        alert("کد عضویت کپی شد.");
+      } catch {
+        alert("کپی خودکار ممکن نیست.");
+      }
+    };
+
+    card.append(name, code, phone, copy);
+    list.appendChild(card);
+  });
+}
 }
 </script>
 </body>
