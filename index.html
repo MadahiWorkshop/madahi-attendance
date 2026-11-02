@@ -1,0 +1,105 @@
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#173b35">
+<title>سامانه حضور و غیاب مداحی</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f2f5f4;color:#24332e;font-family:Tahoma,sans-serif}
+header{background:#173b35;color:white;text-align:center;padding:35px 15px}
+header h1{font-size:24px}
+header p{color:#d5e5df}
+main{max-width:460px;margin:30px auto;padding:15px}
+.card{background:white;padding:24px;border-radius:17px;box-shadow:0 5px 22px #00000010}
+h2{text-align:center;font-size:20px}
+.menu{display:grid;gap:13px;margin-top:25px}
+button{border:0;border-radius:10px;padding:16px;font-size:16px;font-family:inherit;cursor:pointer}
+.menu button{background:#1c594b;color:white}
+.menu button:last-child{background:#e9f1ed;color:#173b35}
+.menu button:nth-child(2){background:#344b45}
+label{display:block;margin:15px 0 7px}
+input{width:100%;padding:13px;border:1px solid #d5ded9;border-radius:9px;font-size:15px;font-family:inherit}
+.action{width:100%;background:#1c594b;color:white;margin-top:22px}
+.back{width:100%;background:#edf1ef;color:#173b35;margin-top:10px}
+.page{display:none}
+.page.active{display:block}
+.note{font-size:12px;color:#68766f;line-height:2;text-align:center}
+footer{text-align:center;color:#78847e;font-size:12px;margin:25px}
+</style>
+</head>
+<body>
+<header>
+<h1>سامانه حضور و غیاب</h1>
+<p>کارگاه آموزشی مداحی</p>
+</header>
+
+<main>
+<div class="card page active" id="home">
+<h2>به سامانه خوش آمدید</h2>
+<div class="menu">
+<button onclick="showPage('member')">ورود اعضا</button>
+<button onclick="showPage('admin')">ورود مدیر</button>
+<button onclick="showPage('register')">ثبت‌نام اعضا</button>
+</div>
+</div>
+
+<div class="card page" id="member">
+<h2>ورود اعضا</h2>
+<label>کد عضویت</label>
+<input id="memberCode" placeholder="کد عضویت">
+<label>رمز عبور</label>
+<input id="memberPassword" type="password" placeholder="رمز عبور">
+<button class="action" onclick="login('member')">ورود به پنل اعضا</button>
+<button class="back" onclick="showPage('home')">بازگشت</button>
+</div>
+
+<div class="card page" id="admin">
+<h2>ورود مدیر</h2>
+<label>ایمیل مدیر</label>
+<input id="adminEmail" type="email" placeholder="ایمیل">
+<label>رمز عبور</label>
+<input id="adminPassword" type="password" placeholder="رمز عبور">
+<button class="action" onclick="login('admin')">ورود مدیر</button>
+<button class="back" onclick="showPage('home')">بازگشت</button>
+</div>
+
+<div class="card page" id="register">
+<h2>ثبت‌نام عضو جدید</h2>
+<label>نام</label>
+<input id="firstName" placeholder="نام">
+<label>نام خانوادگی</label>
+<input id="lastName" placeholder="نام خانوادگی">
+<label>نام پدر</label>
+<input id="fatherName" placeholder="نام پدر">
+<label>شماره تماس</label>
+<input id="phone" type="tel" placeholder="شماره تماس">
+<label>تاریخ تولد</label>
+<input id="birthDate" placeholder="مثلاً ۱۳۸۸/۰۵/۲۰">
+<label>کد ملی</label>
+<input id="nationalId" inputmode="numeric" placeholder="کد ملی">
+<label>رمز عبور</label>
+<input id="newPassword" type="password" placeholder="انتخاب رمز عبور">
+<button class="action" onclick="registerMember()">ارسال درخواست ثبت‌نام</button>
+<button class="back" onclick="showPage('home')">بازگشت</button>
+</div>
+
+<footer>سامانه اختصاصی کارگاه آموزشی مداحی</footer>
+</main>
+
+<script>
+function showPage(id){
+ document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+ document.getElementById(id).classList.add('active');
+}
+function login(type){
+ alert('اتصال امن ورود به پایگاه داده هنوز تکمیل نشده است.');
+}
+function registerMember(){
+ alert('اتصال امن ثبت‌نام هنوز تکمیل نشده است. اطلاعات واردشده فعلاً ذخیره نمی‌شوند.');
+}
+</script>
+</body>
+</html>
