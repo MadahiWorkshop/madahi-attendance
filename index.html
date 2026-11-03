@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
@@ -100,6 +99,7 @@ function showPage(id){
  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
  document.getElementById(id).classList.add('active');
 }
+
 async function login(type) {
   if (type === "admin") {
     const password = document.getElementById("adminPassword").value;
@@ -123,12 +123,13 @@ async function login(type) {
       return;
     }
 
-localStorage.setItem("adminSession", JSON.stringify(result.session));
+    localStorage.setItem("adminSession", JSON.stringify(result.session));
     showPage("adminPanel");
   } else {
     alert("ورود اعضا هنوز متصل نشده است.");
   }
 }
+
 function registerMember(){
   alert('اتصال ثبت‌نام هنوز تکمیل نشده است.');
 }
@@ -201,55 +202,6 @@ async function loadMembers() {
   } catch (error) {
     alert("خطا در ارتباط با پایگاه داده.");
   }
-}
-  );
-
-  const members = await response.json();
-
-  if (!response.ok) {
-    alert("خطا در دریافت اعضا: " + (members.message || "خطای نامشخص"));
-    return;
-  }
-
-  const list = document.getElementById("membersList");
-
-  if (members.length === 0) {
-    list.textContent = "هنوز عضوی ثبت نشده است.";
-    return;
-  }
-
-  list.innerHTML = "";
-
-  members.forEach(member => {
-    const card = document.createElement("div");
-    card.style.cssText =
-      "padding:15px;margin-top:12px;border:1px solid #ddd;border-radius:10px";
-
-    const name = document.createElement("strong");
-    name.textContent =
-      (member.first_name || "") + " " + (member.last_name || "");
-
-    const code = document.createElement("p");
-    code.textContent = "کد عضویت: " + (member.membership_code || "ثبت نشده");
-
-    const phone = document.createElement("p");
-    phone.textContent = "شماره تماس: " + (member.phone || "ثبت نشده");
-
-    const copy = document.createElement("button");
-    copy.textContent = "کپی کد عضویت";
-    copy.onclick = async () => {
-      try {
-        await navigator.clipboard.writeText(member.membership_code || "");
-        alert("کد عضویت کپی شد.");
-      } catch {
-        alert("کپی خودکار ممکن نیست.");
-      }
-    };
-
-    card.append(name, code, phone, copy);
-    list.appendChild(card);
-  });
-}
 }
 </script>
 </body>
